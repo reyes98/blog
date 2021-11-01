@@ -8,47 +8,43 @@
 			<div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 				<form
 					class="p-4 sm:p-6 bg-white overflow-hidden shadow-xl sm:rounded-lg"
-					@submit.prevent="saveExperience"
+					@submit.prevent="saveAppoiment"
 				>
-					<AppImage
+					<!-- <AppImage
 						class="mt-2"
 						v-model="form.image"
 						:image-url="imageUrl"
 						label="Image"
 						:error-message="form.errors.image"
-					/>
+					/> -->
 
 					<div class="mt-4">
-						<jet-label for="category" value="Category" />
+            <jet-label for="category"
+                       value="Category" />
 
-						<select
-							name="category"
-							id="category"
-							class="block w-full form-input"
-							v-model="form.category_id"
-						>
-							<option value="">Select</option>
-							<option
-								v-for="category in categories.data"
-								:key="category.id"
-								:value="category.id"
-							>
-								{{ category.name }}
-							</option>
-						</select>
-						<jet-input-error :message="form.errors.category_id" class="mt-2" />
-					</div>
+            <select name="category"
+                    id="category"
+                    class="block w-full form-input"
+                    v-model="form.category_id">
+              <option value="">Select</option>
+              <option v-for="category in categories.data"
+                      :key="category.id"
+                      :value="category.id">{{ category.name }}</option>
+            </select>
+            <jet-input-error :message="form.errors.category_id"
+                             class="mt-2" />
+          </div>
 
 					<div class="mt-4">
-						<jet-label for="title" value="Title" />
+						<jet-label for="name" value="Title" />
 						<jet-input
-							id="title"
+							id="name"
 							type="text"
 							class="mt-1 block w-full"
-							v-model="form.title"
-							autocomplete="title"
+							v-model="form.name"
+							autocomplete="name"
 						/>
-						<jet-input-error :message="form.errors.title" class="mt-2" />
+						<jet-input-error :message="form.errors.name" class="mt-2" />
 					</div>
 
 					<div class="mt-4">
@@ -110,7 +106,7 @@ export default {
 	},
 	props: {
 		edit: Boolean,
-		experience: Object,
+		appoiment: Object,
 		categories: {
 			type: Object,
 			default: function () {
@@ -127,9 +123,9 @@ export default {
 				{
 					_method: this.edit ? "PUT" : "",
 					category_id: "",
-					title: "",
+					name: "",
 					slug: "",
-					description: this.edit ? this.experience.data.description : "",
+					description: this.edit ? this.appoiment.data.description : "",
 					image: "",
 				},
 				{
@@ -142,37 +138,30 @@ export default {
 		breadcrumbs() {
 			return [
 				{
-					label: "Experiences",
-					url: this.route("experiences.index"),
+					label: "Appoiments",
+					url: this.route("appoiments.index"),
 				},
 				{
-					label: `${this.edit ? "Edit" : "Add"} Experience`,
+					label: `${this.edit ? "Edit" : "Add"} Appoiment`,
 				},
 			];
 		},
 	},
 	methods: {
-		saveExperience() {
+		saveAppoiment() {
 			this.edit
 				? this.form.post(
-						route("experiences.update", { id: this.experience.data.id })
+						route("appoiments.update", { id: this.appoiment.data.id })
 				  )
-				: this.form.post(route("experiences.store"));
-		},
-	},
-	watch: {
-		"form.title"(title) {
-			if (this.edit) return;
-			this.form.slug = strSlug(title);
+				: this.form.post(route("appoiments.store"));
 		},
 	},
 	mounted() {
 		if (this.edit) {
-			this.form.category_id = this.experience.data.category_id;
-			this.form.title = this.experience.data.title;
-			this.form.slug = this.experience.data.slug;
+			this.form.name = this.appoiment.data.name;
+			this.form.slug = this.appoiment.data.slug;
 		}
-		this.imageUrl = this.experience.data.image_url;
+			this.imageUrl = this.appoiment.data.image_url;
 	},
 };
 </script>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AppoimentController;
 use App\Http\Controllers\Api\ContactMeController;
 use App\Http\Controllers\Api\ExperiencesController;
 use App\Http\Controllers\Api\SettingsController;
@@ -22,3 +23,6 @@ Route::get('settings', [SettingsController::class, 'index']);
 
 //contact
 Route::post('contact-me', [ContactMeController::class, 'store']);
+
+//appoiment
+Route::post('appoiment', [AppoimentController::class, 'store']);

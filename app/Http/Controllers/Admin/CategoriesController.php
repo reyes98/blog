@@ -20,7 +20,7 @@ class CategoriesController extends Controller
 
     public function create(Request $request)
     {
-        return Inertia::render('Categories/Create',[
+        return Inertia::render('Categories/Create', [
             'edit' => false,
             'category' => (object) [],
         ]);
@@ -35,8 +35,6 @@ class CategoriesController extends Controller
 
         Category::create($data);
         return redirect()->route('categories.index')->with('success', 'Category saved succesfully');
-
-
     }
 
     public function destroy(Category $category)
@@ -47,7 +45,7 @@ class CategoriesController extends Controller
 
     public function edit(Category $category)
     {
-        return Inertia::render('Categories/Create',[
+        return Inertia::render('Categories/Create', [
             'edit' => true,
             'category' => new CategoryResource($category),
         ]);

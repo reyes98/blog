@@ -36,6 +36,6 @@ class ExperienceResource extends JsonResource
                 ];
             }),
             'category' => new CategoryResource($this->whenLoaded('category')), //gets the key if requested
-        ];;
+        ];
     }
 }
