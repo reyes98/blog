@@ -18,7 +18,7 @@ class ContactMeController extends Controller
             'message' => ['required', 'string', 'max:200'],
         ]);
 
-        Mail::to('guapacha2@hotmail.com')->send(new SentContactMeMail($data));
+        Mail::to('danielitado@hotmail.com')->send(new SentContactMeMail($data));
 
         return response()->json([
             'message' => 'Your message has been submitted successfully.',

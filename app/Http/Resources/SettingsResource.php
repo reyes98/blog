@@ -26,8 +26,6 @@ class SettingsResource extends JsonResource
             'address' => $this->address(),
             'email' => $this->email(),
             'phone' => $this->phone(),
-
-
         ];
     }
 }

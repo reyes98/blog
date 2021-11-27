@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\AppoimentsResource;
+use App\Mail\SentAppoimentMail;
 use App\Models\Appoiment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class AppoimentsController extends Controller
@@ -56,7 +58,6 @@ class AppoimentsController extends Controller
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50'],
             'phone' => ['required', 'string', 'max:20'],
-            // 'start_time' => ['required', 'date'],
             'message' => ['required', 'string', 'max:200'],
         ]);
 
@@ -64,9 +65,11 @@ class AppoimentsController extends Controller
             $data['start_time'] = Carbon::parse($request->start_time)->format('Y-m-d H:i:s');
         }
 
-        // $data['status'] = 'pending';
+        if ($request->has('status')) {
+            $data['status'] = $request->status;
+        }
 
-        // Mail::to('guapacha2@hotmail.com')->send(new SentApoimentMail($data));
+        Mail::to('danielitado@hotmail.com')->send(new SentAppoimentMail($data));
 
         Appoiment::create($data);
 
@@ -93,7 +96,12 @@ class AppoimentsController extends Controller
     public function update(Request $request, Appoiment $appoiment)
     {
         $data = $request->validate([
-            'status' => ['required'],
+            'name' => ['required', 'string', 'max:50'],
+            'email' => ['required', 'string', 'email', 'max:50'],
+            'phone' => ['required', 'string', 'max:20'],
+            'start_time' => ['required', 'date'],
+            'status' => ['required', 'string', 'max:20'],
+            'message' => ['required', 'string', 'max:200'],
         ]);
 
         $appoiment->update($data);

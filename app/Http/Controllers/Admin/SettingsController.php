@@ -85,7 +85,7 @@ class SettingsController extends Controller
         ]);
         
         if ($request->file('contact_image')) {
-            $this->settings->deleteImage('data->data->contact_image');
+            $this->settings->deleteImage('data->contact_image');
 
             $imageName = (new UploadFile)
                 ->setFile($request->file('contact_image'))
@@ -112,7 +112,11 @@ class SettingsController extends Controller
 
     private function save(array $data): void
     {
-        $this->settings->data = array_merge($this->settings->data, $data);
+        if ($this->settings->data) {
+            $this->settings->data = array_merge($this->settings->data, $data);
+        } else {
+            $this->settings->data=$data;
+        }      
         $this->settings->save();
     }
 }
