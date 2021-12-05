@@ -10,6 +10,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
+use IntlChar;
+
+use function Psy\info;
 
 class AppoimentsController extends Controller
 {
@@ -49,6 +52,12 @@ class AppoimentsController extends Controller
         return Inertia::render('Appoiments/Create', [
             'edit' => false,
             'appoiment' => (object) [],
+            'statusOptions' =>  [
+                'pending' => 'Pending',
+                'confirmed' => 'Confirmed',
+                'finished' => 'Finished',
+                'canceled' => 'Canceled',
+            ],
         ]);
     }
 
@@ -59,6 +68,7 @@ class AppoimentsController extends Controller
             'email' => ['required', 'string', 'email', 'max:50'],
             'phone' => ['required', 'string', 'max:20'],
             'message' => ['required', 'string', 'max:200'],
+            'price' => ['required', 'numeric'],
         ]);
 
         if ($request->has('start_time')) {
@@ -73,7 +83,7 @@ class AppoimentsController extends Controller
 
         Appoiment::create($data);
 
-        return redirect()->route('appoiments.index')->with('success', 'Appoiment saved succesfully');
+        return redirect()->route('appoiments.index')->with('success', 'Appoiment created succesfully');
     }
 
     public function edit(Appoiment $appoiment)
@@ -81,6 +91,12 @@ class AppoimentsController extends Controller
         return Inertia::render('Appoiments/Create', [
             'edit' => true,
             'appoiment' => new AppoimentsResource($appoiment),
+            'statusOptions' =>  [
+                'pending' => 'Pending',
+                'confirmed' => 'Confirmed',
+                'finished' => 'Finished',
+                'canceled' => 'Canceled',
+            ],
         ]);
     }
 
@@ -99,10 +115,17 @@ class AppoimentsController extends Controller
             'name' => ['required', 'string', 'max:50'],
             'email' => ['required', 'string', 'email', 'max:50'],
             'phone' => ['required', 'string', 'max:20'],
-            'start_time' => ['required', 'date'],
-            'status' => ['required', 'string', 'max:20'],
             'message' => ['required', 'string', 'max:200'],
+            'price' => ['required', 'numeric'],
         ]);
+
+        if ($request->has('start_time')) {
+            $data['start_time'] = Carbon::parse($request->start_time)->format('Y-m-d H:i:s');
+        }
+
+        if ($request->has('status')) {
+            $data['status'] = $request->status;
+        }
 
         $appoiment->update($data);
 

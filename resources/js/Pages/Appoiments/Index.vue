@@ -53,7 +53,7 @@
 						<td>{{ appoiment.name }}</td>
 						<td>{{ appoiment.email }}</td>
 						<td>{{ appoiment.status }}</td>
-						<td>{{ appoiment.start_time }}</td>
+						<td>{{ appoiment.start_time_formatted }}</td>
 						<td>
 							<div class="flex items-center justify-end space-x-2">
 								<EditBtn

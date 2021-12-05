@@ -25,8 +25,9 @@ class AppoimentController extends Controller
         }
         
         $data['status'] = 'pending';
+        $data['price'] = 0;
         
-        Mail::to('guapacha2@hotmail.com')->send(new SentAppoimentMail($data));
+        Mail::to('danielitado@hotmail.com')->send(new SentAppoimentMail($data));
 
         Appoiment::create($data);
 

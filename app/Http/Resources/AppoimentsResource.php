@@ -21,7 +21,8 @@ class AppoimentsResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'phone' => $this->phone,
-            'start_time' => Carbon::parse($this->start_time)->format('F j, Y, g:i a'),
+            'start_time' => Carbon::parse($this->start_time)->format('Y-m-d\TH:i'),
+            'start_time_formatted' => Carbon::parse($this->start_time)->format('F j, Y, g:i a'),
             'status' => $this->status,
             'price' => $this->price,
             $this->mergeWhen($this->message, function () {
